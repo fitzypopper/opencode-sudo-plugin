@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+STATE="${XDG_CONFIG_HOME:-$HOME/.config}/opencode/sudo-policy"
+
+usage() {
+  echo "Usage: opencode-sudo [ask|on|off|status]"
+  echo ""
+  echo "Toggle how opencode handles sudo commands."
+  echo ""
+  echo "  ask  - open a GUI (polkit) window every time (default)"
+  echo "  on   - run elevated commands automatically (cached credentials)"
+  echo "  off  - deny all sudo commands"
+  echo "  status - show current policy"
+  echo ""
+  echo "Inside the opencode TUI you can also run /sudo to switch interactively."
+  echo "Current state file: $STATE"
+  exit 2
+}
+
+current() {
+  if [[ -f "$STATE" ]]; then
+    tr -d '[:space:]' < "$STATE"
+  else
+    echo "ask"
+  fi
+}
+
+case "${1:-}" in
+  ask|on|off)
+    mkdir -p "$(dirname "$STATE")"
+    echo "$1" > "$STATE"
+    echo "sudo policy set to: $1"
+    ;;
+  status)
+    echo "sudo policy: $(current)"
+    ;;
+  -h|--help|"")
+    usage
+    ;;
+  *)
+    echo "error: unknown policy '$1'" >&2
+    usage
+    ;;
+esac

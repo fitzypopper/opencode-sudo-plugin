@@ -1,0 +1,18 @@
+{
+  "name": "opencode-sudo-plugin",
+  "version": "0.1.0",
+  "description": "Route opencode's sudo commands through a polkit GUI prompt with a live ask/on/off policy toggle",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.2",
+    "typescript": "^5.9.0"
+  },
+  "dependencies": {
+    "@opencode/plugin": "^2.0.23"
+  }
+}
